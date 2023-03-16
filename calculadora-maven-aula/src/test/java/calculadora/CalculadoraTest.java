@@ -50,6 +50,36 @@ public class CalculadoraTest {
     	//Assign - Validar o resultado obtido
     	Assertions.assertEquals(saidaEsperada, saidaObtida);
     }        
+    
+    @Test
+    public void testarDividirDoisInteirosSucesso() {
+    	//Arrange - Definir o cenário de teste
+    	Calculadora calculadora = new Calculadora();
+    	int entradaNumeroUm = 10;
+    	int entradaNumeroDois = 5;
+    	int saidaEsperada = 2;
+    	
+    	//Act - Executaros métodos que estão sendo testados
+    	int saidaObtida = calculadora.dividir(entradaNumeroUm, entradaNumeroDois);
+    	
+    	//Assign - Validar o resultado obtido
+    	Assertions.assertEquals(saidaEsperada, saidaObtida);
+    }        
+    
+    @Test
+    public void testarDividirPorZeroRetornaErro() {
+    	//Arrange - Definir o cenário de teste
+    	Calculadora calculadora = new Calculadora();
+    	int entradaNumeroUm = 10;
+    	int entradaNumeroDois = 0;
+    	int saidaEsperada = -1;
+    	
+    	//Act - Executaros métodos que estão sendo testados
+    	int saidaObtida = calculadora.dividir(entradaNumeroUm, entradaNumeroDois);
+    	
+    	//Assign - Validar o resultado obtido
+    	Assertions.assertEquals(saidaEsperada, saidaObtida);
+    }        
 
     
 }
