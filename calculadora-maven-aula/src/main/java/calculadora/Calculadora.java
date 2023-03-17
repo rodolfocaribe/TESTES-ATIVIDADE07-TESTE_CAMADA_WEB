@@ -13,9 +13,11 @@ public class Calculadora {
 		return num1 * num2;
 	}
 
-	public int dividir(int num1, int num2) {
+	public int dividir(int num1, int num2) throws ArithmeticException {
 		if (num2 == 0)
-			return -1;
+			throw new ArithmeticException("Divisão por Zero!!!!");
 		return num1 / num2;
 	}
+	
+	
 }

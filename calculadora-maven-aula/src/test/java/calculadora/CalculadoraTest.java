@@ -52,7 +52,7 @@ public class CalculadoraTest {
     }        
     
     @Test
-    public void testarDividirDoisInteirosSucesso() {
+    public void testarDividirDoisInteirosSucesso() throws Exception {
     	//Arrange - Definir o cenário de teste
     	Calculadora calculadora = new Calculadora();
     	int entradaNumeroUm = 10;
@@ -72,13 +72,10 @@ public class CalculadoraTest {
     	Calculadora calculadora = new Calculadora();
     	int entradaNumeroUm = 10;
     	int entradaNumeroDois = 0;
-    	int saidaEsperada = -1;
     	
-    	//Act - Executaros métodos que estão sendo testados
-    	int saidaObtida = calculadora.dividir(entradaNumeroUm, entradaNumeroDois);
+    	//Act + Assign- Executar o método e valida a ocorrência de erro
+    	Assertions.assertThrows(ArithmeticException.class, ()-> calculadora.dividir(entradaNumeroUm, entradaNumeroDois));
     	
-    	//Assign - Validar o resultado obtido
-    	Assertions.assertEquals(saidaEsperada, saidaObtida);
     }        
 
     
