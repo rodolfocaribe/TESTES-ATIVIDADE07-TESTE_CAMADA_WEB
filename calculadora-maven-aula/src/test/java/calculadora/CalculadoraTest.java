@@ -4,12 +4,19 @@ import org.junit.jupiter.api.Test;
 
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 public class CalculadoraTest {
+	private Calculadora calculadora;
 
+	@BeforeEach
+	public void inicializarCenario() {
+		calculadora = new Calculadora();
+		System.out.println("BeforeEach");
+	}
+	
     @Test
     public void testarSomaDoisInteirosSucesso() {
     	//Arrange - Definir o cenário de teste
-    	Calculadora calculadora = new Calculadora();
     	int entradaNumeroUm = 10;
     	int entradaNumeroDois = 5;
     	int saidaEsperada = 15;
@@ -24,7 +31,6 @@ public class CalculadoraTest {
     @Test
     public void testarSubtrairDoisInteirosSucesso() {
     	//Arrange - Definir o cenário de teste
-    	Calculadora calculadora = new Calculadora();
     	int entradaNumeroUm = 10;
     	int entradaNumeroDois = 5;
     	int saidaEsperada = 5;
@@ -39,7 +45,6 @@ public class CalculadoraTest {
     @Test
     public void testarMultiplicarDoisInteirosSucesso() {
     	//Arrange - Definir o cenário de teste
-    	Calculadora calculadora = new Calculadora();
     	int entradaNumeroUm = 10;
     	int entradaNumeroDois = 5;
     	int saidaEsperada = 50;
@@ -54,7 +59,6 @@ public class CalculadoraTest {
     @Test
     public void testarDividirDoisInteirosSucesso() throws Exception {
     	//Arrange - Definir o cenário de teste
-    	Calculadora calculadora = new Calculadora();
     	int entradaNumeroUm = 10;
     	int entradaNumeroDois = 5;
     	int saidaEsperada = 2;
@@ -69,7 +73,6 @@ public class CalculadoraTest {
     @Test
     public void testarDividirPorZeroRetornaErro() {
     	//Arrange - Definir o cenário de teste
-    	Calculadora calculadora = new Calculadora();
     	int entradaNumeroUm = 10;
     	int entradaNumeroDois = 0;
     	
