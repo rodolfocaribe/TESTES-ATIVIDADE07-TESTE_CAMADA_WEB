@@ -34,7 +34,7 @@ public class VirtualTest {
           WebElement searchResults = driver.findElement(By.id("status-login"));
 
           assertTrue(searchResults.isDisplayed());
-          assertEquals(searchResults.getText(), "Usuário ou senha não cadastrados ou inativo!");
+          assertEquals(searchResults.getText(), "Usuário ou senha não cadastrados ou inativo 2!");
           
           
           //driver.quit();
