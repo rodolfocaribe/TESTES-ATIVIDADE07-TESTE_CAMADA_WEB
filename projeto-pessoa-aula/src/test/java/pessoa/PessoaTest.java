@@ -34,7 +34,7 @@ public class PessoaTest {
 	}
 
 	/**
-	 * Cenário de teste 1
+	 * Cenário de teste 2
 	 */
 	@Test
 	@DisplayName("Testar o nome da pessoa quando a entrada é válida (entre 2 e 100 caracteres) no limite inferior")
@@ -69,5 +69,96 @@ public class PessoaTest {
 		
 		assertThrows(IllegalArgumentException.class, ()->{pessoa.setNome(entradaNome);});
 	}	
+	
+	/**
+	 * Cenário de teste 5
+	 */
+	@Test
+	@DisplayName("Testar se o construtor cria um objeto pessoa quando o nome é correto.")
+	public void testarConstrutorNomeCorretoNoLimiteSuperior() {
+		//Arrange = Cria o cenário
+		String entradaNome = "Bruno Queiroz 12345678901234567890123456789012345678901234567890123456789012345678901234567890123456";
+		String resultadoEsperado = "BRUNO QUEIROZ 12345678901234567890123456789012345678901234567890123456789012345678901234567890123456";
+		
+		//Act = executar os métodos a serem testados		
+		pessoa = new Pessoa(entradaNome);
+		String resultadoObtido = pessoa.getNome();
+		
+		//Assign = comparação
+		Assertions.assertEquals(resultadoEsperado, resultadoObtido);
+	}
+
+	/**
+	 * Cenário de teste 6
+	 */
+	@Test
+	@DisplayName("Testar se o construtor retorna exception para nome incorreto.")
+	public void testarConstrutorNomeInvalidoRetornaException() {
+		String entradaNome = "A";
+		
+		assertThrows(IllegalArgumentException.class, ()->{new Pessoa(entradaNome);});
+
+	}
+	
+	/**
+	 * Cenário de teste 7
+	 */	
+	@Test
+	@DisplayName("Testar se o salário pessoa quando a entrada é válida (entre 1100 e 1000000) no limite superior")
+	public void testarSalarioCorretoNoLimiteSuperior() {
+		//Arrange = Cria o cenário
+		double entradaSalario = 900000;
+		double resultadoEsperado = 900000;
+		
+		//Act = executar os métodos a serem testados		
+		pessoa.setSalario(entradaSalario);
+		double resultadoObtido = pessoa.getSalario();
+		
+		//Assign = comparação
+		Assertions.assertEquals(resultadoEsperado, resultadoObtido);
+	}
+
+	/**
+	 * Cenário de teste 8
+	 */	
+	@Test
+	@DisplayName("Testar se o salário pessoa quando a entrada é válida (entre 1100 e 1000000) no limite inferior")
+	public void testarSalarioCorretoNoLimiteInferior() {
+		//Arrange = Cria o cenário
+		double entradaSalario = 1100;
+		double resultadoEsperado = 1100;
+		
+		//Act = executar os métodos a serem testados		
+		pessoa.setSalario(entradaSalario);
+		double resultadoObtido = pessoa.getSalario();
+		
+		//Assign = comparação
+		Assertions.assertEquals(resultadoEsperado, resultadoObtido);
+	}
+
+	/**
+	 * Cenário de teste 9
+	 */	
+	@Test
+	@DisplayName("Testar se o salário pessoa quando a entrada é inválida retorna exception")
+	public void testarSalarioIncorretoNoLimiteSuperiorRetornaException() {
+		//Arrange = Cria o cenário
+		double entradaSalario = 1000001;
+		
+		assertThrows(IllegalArgumentException.class, ()->{pessoa.setSalario(entradaSalario);});
+	}
+
+	/**
+	 * Cenário de teste 10
+	 */	
+	@Test
+	@DisplayName("Testar se o salário pessoa quando a entrada é inválida retorna exception")
+	public void testarSalarioIncorretoNoLimiteInferiorRetornaException() {
+		//Arrange = Cria o cenário
+		double entradaSalario = 1000;
+		
+		assertThrows(IllegalArgumentException.class, ()->{pessoa.setSalario(entradaSalario);});
+	}
+	
 	
 }
