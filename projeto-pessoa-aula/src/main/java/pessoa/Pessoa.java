@@ -43,4 +43,18 @@ public class Pessoa {
 
 		
 	}
+
+	public void reajustaSalario(double porcentagem) {
+		this.salario += this.salario*validaPorcentagem(porcentagem);
+		
+	}
+
+	private double validaPorcentagem(double porcentagem) {
+		if(porcentagem >=1 && porcentagem <=100) {
+			return porcentagem/100;
+		}else {
+			throw new IllegalArgumentException("A porcetagem precisa ser um valor entre 1 e 100.");
+			
+		}
+	}
 }

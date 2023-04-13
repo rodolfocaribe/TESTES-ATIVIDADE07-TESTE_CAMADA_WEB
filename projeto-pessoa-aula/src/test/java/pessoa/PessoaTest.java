@@ -1,5 +1,6 @@
 package pessoa;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Assertions;
@@ -160,5 +161,61 @@ public class PessoaTest {
 		assertThrows(IllegalArgumentException.class, ()->{pessoa.setSalario(entradaSalario);});
 	}
 	
+	/**
+	 * Cenário de teste 11
+	 */	
+	@Test
+	@DisplayName("Testar se o reajuste do salário da pessoa quando a entrada é válida no limite superior.")
+	public void testarReajusteSalariocorretoNoLimiteSuperior() {
+		//Arrange = Cria o cenário
+		double entradaPorcentagem = 100;
+		double entradaSalarioValido = 2000.00;
+		double salarioEsperado = 4000.00;
+		
+		pessoa.setSalario(entradaSalarioValido);
+		pessoa.reajustaSalario(entradaPorcentagem);
+		double salarioObtido = pessoa.getSalario();
+		assertEquals(salarioEsperado, salarioObtido);
+	}
+	
+	/**
+	 * Cenário de teste 12
+	 */	
+	@Test
+	@DisplayName("Testar se o reajuste do salário da pessoa quando a entrada é válida no limite inferior.")
+	public void testarReajusteSalariocorretoNoLimiteInferior() {
+		//Arrange = Cria o cenário
+		double entradaPorcentagem = 1;
+		double entradaSalarioValido = 2000.00;
+		double salarioEsperado = 2020.00;
+		
+		pessoa.setSalario(entradaSalarioValido);
+		pessoa.reajustaSalario(entradaPorcentagem);
+		double salarioObtido = pessoa.getSalario();
+		assertEquals(salarioEsperado, salarioObtido);
+	}
+	
+	/**
+	 * Cenário de teste 13
+	 */	
+	@Test
+	@DisplayName("Testar se o reajuste do salário da pessoa quando a entrada é inválida no limite superior retorna exception.")
+	public void testarReajusteIncorretoNoLimiteSuperiorRetornaException() {
+		//Arrange = Cria o cenário
+		double entradaPorcentagem = 110;
+		assertThrows(IllegalArgumentException.class, ()->{pessoa.reajustaSalario(entradaPorcentagem);});
+	}
+	
+	/**
+	 * Cenário de teste 14
+	 */	
+	@Test
+	@DisplayName("Testar se o reajuste do salário da pessoa quando a entrada é inválida no limite inferior retorna exception.")
+	public void testarReajusteIncorretoNoLimiteInferiorRetornaException() {
+		//Arrange = Cria o cenário
+		double entradaPorcentagem = 0;
+		assertThrows(IllegalArgumentException.class, ()->{pessoa.reajustaSalario(entradaPorcentagem);});
+	}
+
 	
 }
