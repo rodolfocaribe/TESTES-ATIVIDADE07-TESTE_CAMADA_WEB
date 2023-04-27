@@ -13,5 +13,6 @@ import com.iftm.client.entities.Client;
 
 @Repository
 public interface ClientRepository extends JpaRepository<Client, Long> {
-
+    @Query(value = "SELECT c FROM Client c WHERE c.id = :id")
+    public Optional<Client> findById(Long id);
 }
