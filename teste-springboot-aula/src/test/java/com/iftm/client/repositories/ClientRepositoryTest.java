@@ -1,23 +1,21 @@
 package com.iftm.client.repositories;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.Optional;
-
+import com.iftm.client.entities.Client;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import com.iftm.client.entities.Client;
+import java.util.Optional;
 
 @DataJpaTest
 public class ClientRepositoryTest {
     @Autowired
     private ClientRepository repositorio;
 
-    /** Cenário de Teste 1
+    /**
+     * Cenário de Teste 1
      * Objetivo: Verificar se a busca por id realmente retorna o cliente correto.
      * ●
      * monta o cenário,
@@ -35,9 +33,8 @@ public class ClientRepositoryTest {
      * ao esperado.
      */
     @Test
-    @DisplayName("Verificar se a busca por id realmente retorna o\n" +
-            "     * cliente correto.")
-    public void testarBuscaPorIDRetornaClienteCorreto(){
+    @DisplayName("Verificar se a busca por id realmente retorna o\n" + "     * cliente correto.")
+    public void testarBuscaPorIDRetornaClienteCorreto() {
         long idBuscado = 1; //corresponde ao primeiro registro do arquivo import.sql
         String nomeBuscado = "Conceição Evaristo";
         String cpfBuscado = "10619244881";
@@ -61,7 +58,8 @@ public class ClientRepositoryTest {
         //assertEquals(cpfBuscado, resposta.get().getCpf());
     }
 
-    /** Cenário de Teste 2
+    /**
+     * Cenário de Teste 2
      * Objetivo: Verificar se a busca por id inexistente retorna nenhum cliente.
      * ●
      * monta o cenário,
@@ -76,7 +74,7 @@ public class ClientRepositoryTest {
      */
     @Test
     @DisplayName("Verificar se a busca por id inexistente retorna nenhum cliente")
-    public void testarBuscaPorIdNaoRetornaObjetoParaIdInexistente(){
+    public void testarBuscaPorIdNaoRetornaObjetoParaIdInexistente() {
         long idBuscado = 100;
 
         Optional<Client> resultado = repositorio.findById(idBuscado);
@@ -85,7 +83,8 @@ public class ClientRepositoryTest {
         //assertTrue(resultado.isEmpty());
     }
 
-    /** Cenário de Teste 3
+    /**
+     * Cenário de Teste 3
      * Objetivo: Verificar se a exclusão realmente apaga um registro existente.
      * ●
      * monta o cenário,
@@ -101,7 +100,7 @@ public class ClientRepositoryTest {
      */
     @Test
     @DisplayName("Verificar se a exclusão realmente apaga um registro existente.")
-    public void TestarExcluirPorIdApagaRegistroExistente(){
+    public void TestarExcluirPorIdApagaRegistroExistente() {
         long idBuscado = 8;
         long quantidadeRegistrosEsperado = 11;
 
@@ -112,6 +111,7 @@ public class ClientRepositoryTest {
         //assertTrue(resultado.isPresent());
         Assertions.assertThat(repositorio.count()).isEqualTo(quantidadeRegistrosEsperado);
         //assertEquals(quantidadeRegistrosEsperado, repositorio.count());
+
     }
 
 }
