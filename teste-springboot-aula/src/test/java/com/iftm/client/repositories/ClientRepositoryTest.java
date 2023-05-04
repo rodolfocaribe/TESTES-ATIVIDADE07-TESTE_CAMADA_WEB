@@ -6,9 +6,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.dao.EmptyResultDataAccessException;
 
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 @DataJpaTest
 public class ClientRepositoryTest {
     @Autowired
@@ -114,4 +117,86 @@ public class ClientRepositoryTest {
 
     }
 
+    /**
+     * Cenário de Teste 4
+     * Objetivo: Verificar se a exclusão retorna um erro quando um id não existente é informado.
+     * monta o cenário,
+     * - arquivo import.sql carrega o cenário (clientes cadastrados)
+     * - definir o id de um cliente que não exista em import.sql
+     * executa a ação
+     * - executar o método de exclusão por id
+     * e valida a saída.
+     * - verificar se ocorre o erro: EmptyResultDataAccessException
+     */
+    @Test
+    @DisplayName("Verificar se a exclusão retorna um erro quando um id não existente é informado.")
+    public void testarExcluirPorIdRetornaExceptionCasoNaoExista() {
+        long idEsperado = 20;
+
+        assertThrows(EmptyResultDataAccessException.class, () -> {
+            repositorio.deleteById(idEsperado);
+        });
+
+    }
+
+    /**
+     * Cenário de Teste 5
+     * Objetivo: Verificar se a exclusão de todos elementos realmente apaga todos os registros do Banco de dados.
+     * monta o cenário,
+     * - arquivo import.sql carrega o cenário (clientes cadastrados)
+     * executa a ação
+     * - executar o método de exclusão de todos registros
+     * e valida a saída.
+     * - consultar todos os registros do banco e verificar se retorna vazio.
+     */
+    @Test
+    @DisplayName("Verificar se a exclusão de todos elementos realmente apaga todos os registros do Banco de dados.")
+    public void testarApagarTodosLimpaBancoDados() {
+        assertDoesNotThrow(() -> {
+            repositorio.deleteAll();
+        });
+        Assertions.assertThat(repositorio.count()).isEqualTo(0);
+    }
+
+    /**
+     * Cenário de Teste 06
+     * Objetivo: Verificar se a exclusão de uma entidade existente no banco de dados realmente ocorre.
+     * monta o cenário,
+     * - arquivo import.sql carrega o cenário (clientes cadastrados)
+     * - id de um cliente que existe em import.sql
+     * executa a ação
+     * - executa o método encontrar por id para retornar a entidade do cliente com id informado.
+     * - executa o método apagar por id
+     * - executar novamente o método encontrar por id e verificar se o retorno dele é vazio
+     * e valida a saída.
+     * - verifica se o retorno do método encontrar por id é vazio.
+     */
+
+    @Test
+    void testaSeApagarTodosTornaBDVazio2() {
+        long idExistente = 1;
+        Optional<Client> resultado = repositorio.findById(idExistente);
+        repositorio.delete(resultado.get());
+        Optional<Client> busca = repositorio.findById(idExistente);
+        Assertions.assertThat(busca).isEmpty();
+    }
+
+    /**
+     * Cenário de Teste 07
+     * Objetivo: Verificar se um cliente pode ser excluído pelo cpf.
+     * monta o cenário,
+     * - arquivo import.sql carrega o cenário (clientes cadastrados)
+     * - cpf de um cliente cadastrado
+     * executa a ação
+     * - executar um método para excluir um cliente pelo cpf (não existe ainda).
+     * - buscar um cliente pelo cpf (não existe)
+     * e valida a saída.
+     * - a busca deve retornar vazia.
+     */
+    @Test
+    void testaSeApagarClientePeloCPF() {
+        repositorio.deleteClientByCPF("10204374161");
+        Optional<Client> resultado = repositorio.findClientByCPf("10204374161");
+        Assertions.assertThat(resultado).isEmpty();
+    }
 }
