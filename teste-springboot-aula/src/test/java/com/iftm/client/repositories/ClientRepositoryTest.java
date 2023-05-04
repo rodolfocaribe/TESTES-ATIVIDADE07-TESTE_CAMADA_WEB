@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.EmptyResultDataAccessException;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -198,5 +199,26 @@ public class ClientRepositoryTest {
         repositorio.deleteClientByCPF("10204374161");
         Optional<Client> resultado = repositorio.findClientByCPf("10204374161");
         Assertions.assertThat(resultado).isEmpty();
+    }
+
+    /**
+     * Caso de teste 08
+     * INSERT INTO tb_client (name, cpf, income, birth_date, children) VALUES('Carolina Maria de Jesus', '10419244771', 7500.0, TIMESTAMP WITH TIME ZONE '1996-12-23T07:00:00Z', 0);
+     * INSERT INTO tb_client (name, cpf, income, birth_date, children) VALUES('Gilberto Gil', '10419344882', 2500.0, TIMESTAMP WITH TIME ZONE '1949-05-05T07:00:00Z', 4);
+     */
+    @Test
+    @DisplayName("Testar se a busca por cpf com Like retorna a lista esperada.")
+    void testaBuscaClientesInicioCPFQueExiste() {
+        //Arrange
+        String parteCpfBuscado = "104";
+        int tamanhoEsperado = 2;
+        String cpfClientesEsperados[] = {"10419244771", "10419344882"};
+        //act
+        List<Client> resultado = repositorio.findByCpfStartingWith(parteCpfBuscado);
+        //Assign
+        Assertions.assertThat(resultado).isNotEmpty();
+        Assertions.assertThat(resultado.size()).isEqualTo(tamanhoEsperado);
+        Assertions.assertThat(resultado.get(0).getCpf()).isEqualTo(cpfClientesEsperados[0]);
+        Assertions.assertThat(resultado.get(1).getCpf()).isEqualTo(cpfClientesEsperados[1]);
     }
 }

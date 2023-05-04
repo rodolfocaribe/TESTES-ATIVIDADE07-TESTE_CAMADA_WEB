@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -28,4 +29,8 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
     @Query("SELECT DISTINCT obj FROM Client obj WHERE "
             + "obj.cpf = :cpf")
     Optional<Client> findClientByCPf(String cpf);
+
+    public List<Client> findByCpfStartingWith(String cpf);
+
+
 }
