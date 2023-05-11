@@ -8,6 +8,7 @@ public class CalculadoraService {
 	private Calculadora calc;
 	
 	public double calculo(double n1, double n2) {
-		return calc.somar(n1, n2)*10;
+
+		return calc.somar(n1,n2)*10;
 	}
 }
