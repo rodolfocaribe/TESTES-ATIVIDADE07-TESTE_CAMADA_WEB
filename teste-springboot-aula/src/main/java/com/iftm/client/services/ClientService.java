@@ -1,9 +1,10 @@
 package com.iftm.client.services;
 
-import java.util.Optional;
-
-import javax.persistence.EntityNotFoundException;
-
+import com.iftm.client.dto.ClientDTO;
+import com.iftm.client.entities.Client;
+import com.iftm.client.repositories.ClientRepository;
+import com.iftm.client.services.exceptions.DatabaseException;
+import com.iftm.client.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -12,31 +13,35 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.iftm.client.dto.ClientDTO;
-import com.iftm.client.entities.Client;
-import com.iftm.client.repositories.ClientRepository;
-import com.iftm.client.services.exceptions.DatabaseException;
-import com.iftm.client.services.exceptions.ResourceNotFoundException;
+import javax.persistence.EntityNotFoundException;
+import java.util.Optional;
 
 @Service
 public class ClientService {
-	
+
 	@Autowired
 	private ClientRepository repository;
-	
+
 	@Transactional(readOnly = true)
 	public Page<ClientDTO> findAllPaged(PageRequest pageRequest) {
-		Page<Client> list =  repository.findAll(pageRequest);
+		Page<Client> list = repository.findAll(pageRequest);
 		return list.map(x -> new ClientDTO(x));
 	}
-	
+
+	@Transactional(readOnly = true)
+	public Page<ClientDTO> findByIncomeGreaterThan(PageRequest pageRequest, double income) {
+		Page<Client> list = repository.findByIncomeGreaterThan(income, pageRequest);
+		return list.map(x -> new ClientDTO(x));
+	}
+
+
 	@Transactional(readOnly = true)
 	public ClientDTO findById(Long id) {
 		Optional<Client> obj = repository.findById(id);
 		Client entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
 		return new ClientDTO(entity);
 	}
-	
+
 	@Transactional
 	public ClientDTO insert(ClientDTO dto) {
 		Client entity = dto.toEntity();
