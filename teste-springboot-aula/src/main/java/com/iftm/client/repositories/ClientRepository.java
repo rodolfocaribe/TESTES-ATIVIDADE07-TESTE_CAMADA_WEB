@@ -2,7 +2,7 @@ package com.iftm.client.repositories;
 
 import com.iftm.client.entities.Client;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -34,6 +34,11 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
 
     public List<Client> findByCpfStartingWith(String cpf);
 
+    Page<Client> findByIncome(double salarioI, Pageable pageable);
 
-    Page<Client> findByIncomeGreaterThan(double salario, PageRequest pageRequest);
+    Page<Client> findByIncomeGreaterThan(double salarioI, Pageable pageable);
+
+    Page<Client> findByCpfLike(String parteCpf, Pageable pageable);
+
+
 }
