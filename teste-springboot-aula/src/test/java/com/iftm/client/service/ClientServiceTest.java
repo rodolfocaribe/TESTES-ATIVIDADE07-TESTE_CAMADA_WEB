@@ -112,7 +112,7 @@ public class ClientServiceTest {
     public void testarBuscaPorSalarioMaiorQueRetornaElementosEsperados() {
         //cenário de teste
         double entrada = 4800.00;
-        int paginaApresentada = 1;
+        int paginaApresentada = 0;
         int linhasPorPagina = 2;
         String ordemOrdenacao = "ASC";
         String campoOrdenacao = "income";
@@ -127,7 +127,8 @@ public class ClientServiceTest {
         List<Client> lista = new ArrayList<>();
         lista.add(clienteSete);
         lista.add(clienteQuatro);
-        Page<Client> paginaEsperada = new PageImpl<>(lista, pagina, 1);
+        Page<Client> paginaEsperada = new PageImpl<>(lista, pagina, 3);
+        System.out.println(paginaEsperada.toList().size());
         Mockito.when(repositorio.findByIncomeGreaterThan(entrada, pagina)).thenReturn(paginaEsperada);
 
         //testar se o método da service não retorna erro.
@@ -138,7 +139,7 @@ public class ClientServiceTest {
         Page<ClientDTO> page = servico.findByIncomeGreaterThan(pagina, entrada);
 
         assertThat(page).isNotEmpty();
-        //assertThat(page.getTotalElements()).isEqualTo(3);
+        assertThat(page.getTotalElements()).isEqualTo(3);
         assertThat(page.getNumberOfElements()).isEqualTo(2);
         assertThat(page.toList().get(0).toEntity()).isEqualTo(clienteSete);
         assertThat(page.toList().get(1).toEntity()).isEqualTo(clienteQuatro);
