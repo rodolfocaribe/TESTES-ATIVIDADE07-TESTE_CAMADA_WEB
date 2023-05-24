@@ -141,6 +141,7 @@ public class ClientServiceTest {
         assertThat(page).isNotEmpty();
         assertThat(page.getTotalElements()).isEqualTo(3);
         assertThat(page.getNumberOfElements()).isEqualTo(2);
+        assertThat(page.getTotalPages()).isEqualTo(2);
         assertThat(page.toList().get(0).toEntity()).isEqualTo(clienteSete);
         assertThat(page.toList().get(1).toEntity()).isEqualTo(clienteQuatro);
 
