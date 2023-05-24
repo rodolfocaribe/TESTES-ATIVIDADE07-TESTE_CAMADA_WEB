@@ -146,4 +146,45 @@ public class ClientServiceTest {
         assertThat(page.toList().get(1).toEntity()).isEqualTo(clienteQuatro);
 
     }
+
+    /**
+     * Exercicios extras feitos em sala
+     * findByCpfLike deveria retornar uma página (e chamar o método findByCpfLike do repository)
+     * Cenário de teste
+     * Entradas necessárias:
+     * - cpf : "%447%"
+     * - Uma PageRequest com os valores
+     * - page = 0
+     * - size = 3
+     * - direction = Direction.valueOf("ASC")
+     * - order = "name"
+     * - Lista de clientes esperada
+     * {
+     * "id": 4,
+     * "name": "Carolina Maria de Jesus",
+     * "cpf": "10419244771",
+     * "income": 7500.0,
+     * "birthDate": "1996-12-23T07:00:00Z",
+     * "children": 0
+     * },
+     */
+
+    @Test
+    public void testarSeBuscarClientesPorCPFLikeRetornaUmaPaginaComClientesComCPFQueContemTextoInformado() {
+        String cpf = "%447%";
+        PageRequest pageRequest = PageRequest.of(0, 3, Sort.Direction.valueOf("ASC"), "name");
+
+
+        List<Client> listaClientes = new ArrayList<Client>();
+        listaClientes.add(new Client(4l, "Carolina Maria de Jesus", "10419244771", 7500.0, Instant.parse("1996-12-23T07:00:00Z"), 0));
+
+        Page<Client> clientes = new PageImpl<Client>(listaClientes);
+
+        Mockito.when(repositorio.findByCpfLike(cpf, pageRequest)).thenReturn(clientes);
+        Page<ClientDTO> resultado = servico.findByCpfLike(pageRequest, cpf);
+        Assertions.assertFalse(resultado.isEmpty());
+        Assertions.assertEquals(listaClientes.size(), resultado.getNumberOfElements());
+        Assertions.assertEquals(listaClientes.get(0), resultado.toList().get(0).toEntity());
+        Mockito.verify(repositorio, Mockito.times(1)).findByCpfLike(cpf, pageRequest);
+    }
 }
