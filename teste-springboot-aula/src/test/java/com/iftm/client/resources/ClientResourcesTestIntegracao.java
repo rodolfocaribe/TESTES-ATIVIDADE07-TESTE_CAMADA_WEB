@@ -56,4 +56,32 @@ public class ClientResourcesTestIntegracao {
         ;
     }
 
+    /**
+     * Caso de teste: verificar se o endPoint clients/id retorna o cliente correto quando o id existe
+     * Arrange:     *
+     * - Uma PageRequest default
+     * - idExistente : 4L
+     * {
+     * "id": 4,
+     * "name": "Carolina Maria de Jesus",
+     * "cpf": "10419244771",
+     * "income": 7500.0,
+     * "birthDate": "1996-12-23T07:00:00Z",
+     * "children": 0
+     * }
+     */
+    @Test
+    @DisplayName("verificar se o endPoint clients/id retorna o cliente correto quando o id existe")
+    public void testarEndPointBuscaPorIDRetornaClienteIdExistente() throws Exception {
+        long idExistente = 4L;
+        mockMvc.perform(get("/clients/{id}", idExistente).accept(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").exists())
+                .andExpect(jsonPath("$.id").value(idExistente))
+                .andExpect(jsonPath("$.name").exists())
+                .andExpect(jsonPath("$.name").value("Carolina Maria de Jesus"))
+                .andExpect(jsonPath("$.cpf").exists())
+                .andExpect(jsonPath("$.cpf").value("10419244771"))
+        ;
+    }
 }
