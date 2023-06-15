@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -83,5 +84,19 @@ public class ClientResourcesTestIntegracao {
                 .andExpect(jsonPath("$.cpf").exists())
                 .andExpect(jsonPath("$.cpf").value("10419244771"))
         ;
+    }
+
+    /**
+     * Caso de teste: verificar se o endPoint clients/id retorna
+     * o erro Resource not found quando o id não existe
+     * Arrange:
+     * - idExistente : 40L
+     */
+    public void testarBuscaPorIdNaoExistenteRetornaErro() throws Exception {
+        long idNaoExistente = 40L;
+        ResultActions resultado = mockMvc.perform(get("/clients/id/{id}", idNaoExistente)
+                .accept(MediaType.APPLICATION_JSON));
+        resultado.andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.error").value("Resource not found"));
     }
 }
